@@ -24,6 +24,7 @@ async def start_bot(message: types.Message):
 🇬🇧 Hello {message.chat.full_name}! - Welcome to the bot To enter information about the bot, enter the /help command 😊\n
 🇷🇺 Здравствуйте, {message.chat.full_name}! - Добро пожаловать в бот Для ввода информации о боте введите команду /help 😊\n
                         ''')
+    await add_user(message)
     
 @dp.message_handler(commands = ['help'])
 async def help_bot(message: types.Message):
