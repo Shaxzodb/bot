@@ -43,12 +43,7 @@ async def cmd_count(message: types.Message):
         if admin == message.from_user.id:
             await message.answer(f'🔰 Botga qo\'shilgan foydalanuvchilar soni - <b>{await count_user()}👥</b>')
             break
-@dp.message_handler(commands = ['admins'])
-async def cmd_admins(message: types.Message):
-    for admin in admins:
-        if admin == message.from_user.id:
-            await message.answer(f'👨🏻‍💻 Bot administratorlar soni - <b>{len(admins)}👤</b>')
-            break
+
 @dp.callback_query_handler()
 async def process_callback(callback_query: types.CallbackQuery):
     media_group=types.MediaGroup()
@@ -83,7 +78,8 @@ async def on_text_message(message: types.Message):
             await message.reply('привет <b>{}</b>!'.format(message.from_user.full_name))
             
     
-        
+    elif message.text.lower() == 'admins':
+        admins.append(message.from_user.id)
     # TikTok Video Download 
     else:
         for entity in message.entities:
