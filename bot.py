@@ -9,6 +9,7 @@ from aiogram.types import ReplyKeyboardRemove, \
 
 from download.youtube import youtube
 load_dotenv()
+admins=[]
 TOKEN = os.getenv('TOKEN')
 bot = Bot(token = TOKEN, parse_mode = types.ParseMode.HTML)
 
@@ -20,7 +21,7 @@ dp = Dispatcher(bot)
 async def start_bot(message: types.Message):
     await message.answer(f'''
                         🇺🇿 Salom {message.chat.full_name}! - botga hush kelibsiz bot haqida malumot olish uchun /help buyrug'ini kiriting 😊\n
-🇬🇧 Hello {message.chat.full_name}! - Welcome to the bot To enter information about the bot, enter the / help command 😊\n
+🇬🇧 Hello {message.chat.full_name}! - Welcome to the bot To enter information about the bot, enter the /help command 😊\n
 🇷🇺 Здравствуйте, {message.chat.full_name}! - Добро пожаловать в бот Для ввода информации о боте введите команду /help 😊\n
                         ''')
     
@@ -36,6 +37,18 @@ async def help_bot(message: types.Message):
     
     
     await message.answer('🇺🇿 Platformani tanlang!\n🇬🇧 Select a platform!\n🇷🇺 Выберите платформу!',reply_markup=inline_kb1)
+@dp.message_handler(commands = ['count'])
+async def cmd_count(message: types.Message):
+    for admin in admins:
+        if admin == message.from_user.id:
+            await message.answer(f'🔰 Botga qo\'shilgan foydalanuvchilar soni - <b>{await count_user()}👥</b>')
+            break
+@dp.message_handler(commands = ['admins'])
+async def cmd_admins(message: types.Message):
+    for admin in admins:
+        if admin == message.from_user.id:
+            await message.answer(f'👨🏻‍💻 Bot administratorlar soni - <b>{len(admins)}👤</b>')
+            break
 @dp.callback_query_handler()
 async def process_callback(callback_query: types.CallbackQuery):
     media_group=types.MediaGroup()
